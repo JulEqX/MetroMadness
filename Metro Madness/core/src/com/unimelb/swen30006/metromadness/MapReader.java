@@ -46,7 +46,7 @@ public class MapReader {
 			FileHandle file = Gdx.files.internal("assets/maps/melbourne.xml");			
 			XmlReader reader = new XmlReader();
 			Element root = reader.parse(file);
-			
+
 			// Process stations
 			Element stations = root.getChildByName("stations");
 			Array<Element> stationList = stations.getChildrenByName("station");
