@@ -1,5 +1,3 @@
-/*HI GUYS*/
-
 package com.unimelb.swen30006.metromadness;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -19,39 +17,43 @@ import com.badlogic.gdx.math.MathUtils;
 public class MetroMadness extends ApplicationAdapter {
 
 	// The width of the world in unitless dimensions
-    static final int WORLD_WIDTH = 1200;
-    static final int WORLD_HEIGHT = 1200;
+    private static final int WORLD_WIDTH = 1200;
+    private static final int WORLD_HEIGHT = 1200;
 
     // Viewport state
-    int VIEWPORT_WIDTH=200;
-	float viewport_width;
+    private static final int VIEWPORT_WIDTH = 200;
+    
+    //Font size
+    private static final int FONTSIZE = 12;
+    private static final int HEADLINESIZE = 40;
+    
+    private static final String FILEPATH = "assets/maps/melbourne1.xml";
 
-	// Data for simluation, rendering and camera.
-	Simulation sim;
-	ShapeRenderer shapeRenderer;
-	OrthographicCamera camera;
+	// Data for simulation, rendering and camera.
+	private Simulation sim;
+	private ShapeRenderer shapeRenderer;
+	private OrthographicCamera camera;
 	
 	// Font
-	BitmapFont smaller;
-	BitmapFont header;
+	private BitmapFont smaller;
+	private BitmapFont header;
 
 	@Override
 	public void resize(int width, int height) {
-        camera.viewportWidth = viewport_width;
-        camera.viewportHeight = viewport_width * (float)height/width;
+        camera.viewportWidth = VIEWPORT_WIDTH;
+        camera.viewportHeight = VIEWPORT_WIDTH * (float)height/width;
         camera.update();
 	}
 
 	@Override
 	public void create () {
 		// Create the simulation
-		sim = new Simulation("filename");		
+		sim = new Simulation(FILEPATH);		
 		
 		// Setup our 2D Camera
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-        viewport_width = VIEWPORT_WIDTH;
-		camera = new OrthographicCamera(viewport_width, viewport_width * (h / w));
+		camera = new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_WIDTH * (h / w));
 		camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
 		camera.update();
 		
@@ -59,15 +61,17 @@ public class MetroMadness extends ApplicationAdapter {
 		shapeRenderer = new ShapeRenderer();
 		
 		// Create our font
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Gotham-Book.ttf"));
-		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		parameter.size = 12;
+		FreeTypeFontGenerator generator = 
+				new FreeTypeFontGenerator(Gdx.files.internal("fonts/Gotham-Book.ttf"));
+		FreeTypeFontParameter parameter = 
+				new FreeTypeFontParameter();
+		parameter.size = FONTSIZE;
 		smaller = generator.generateFont(parameter); // font size 12 pixels
 		generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
 		FreeTypeFontGenerator headlineGen = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Gotham-Bold.ttf"));
 		FreeTypeFontParameter headlineParam = new FreeTypeFontParameter();
-		headlineParam.size = 40;
+		headlineParam.size = HEADLINESIZE;
 		header = headlineGen.generateFont(headlineParam); // font size 12 pixels
 		headlineGen.dispose(); // don't forget to dispose to avoid memory leaks!
 
@@ -102,14 +106,18 @@ public class MetroMadness extends ApplicationAdapter {
 		 // Begin preparations to render text
 		 SpriteBatch batch = new SpriteBatch();
 		 batch.begin();
-
+		 
 		 // Render Header
 		 header.getData().setScale(0.5f);
 		 header.draw(batch, "metro madness.", 10, Gdx.graphics.getHeight()-10);
 		 batch.end();
-
+		 
 	}
 	
+	/**
+	 * NEED TO DO DOCUMENTATION
+	 * 
+	 * */
     private void handleInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             camera.zoom += 0.1;

@@ -11,45 +11,40 @@ import com.unimelb.swen30006.metromadness.trains.Train;
 public class ActiveStation extends Station {
 
 	public PassengerGenerator g;
-	public ArrayList<Passenger> waiting;
-	
+	private ArrayList<Passenger> waiting;
+
 	public ActiveStation(float x, float y, PassengerRouter router, String name, float maxPax) {
 		super(x, y, router, name);
 		this.waiting = new ArrayList<Passenger>();
 		this.g = new PassengerGenerator(this, this.lines, maxPax);
 	}
-	
+
 	@Override
 	public void enter(Train t) throws Exception {
-		if(trains.size() >= PLATFORMS){
+		if (trains.size() >= PLATFORMS) {
 			throw new Exception();
 		} else {
 			// Add the train
 			this.trains.add(t);
-			
+
+			this.g.generatePassenger();
+
 			// Add the waiting passengers
 			Iterator<Passenger> pIter = this.waiting.iterator();
-			while(pIter.hasNext()){
+			while (pIter.hasNext()) {
 				Passenger p = pIter.next();
 				try {
 					t.embark(p);
 					pIter.remove();
-				} catch (Exception e){
+				} catch (Exception e) {
 					// Do nothing, already waiting
 					break;
-				}
-			}
-			
-			// Add the new passenger
-			Passenger[] ps = this.g.generatePassengers();
-			for(Passenger p: ps){
-				try {
-					t.embark(p);
-				} catch(Exception e){
-					this.waiting.add(p);
 				}
 			}
 		}
 	}
 
+	public void addPassenger(Passenger p) {
+		this.waiting.add(p);
+	}
 }

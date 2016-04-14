@@ -8,49 +8,66 @@ import com.unimelb.swen30006.metromadness.stations.Station;
 import com.unimelb.swen30006.metromadness.tracks.Line;
 import com.unimelb.swen30006.metromadness.trains.Train;
 
+/**
+ * 
+ *
+ */
 public class Simulation {
 	
-	public ArrayList<Station> stations;
-	public ArrayList<Line> lines;
-	public ArrayList<Train> trains;
+	/**
+	 * 
+	 */
+	private ArrayList<Station> stations;
+	private ArrayList<Line> lines; 
+	private ArrayList<Train> trains; 
 	
+	/**
+	 * 
+	 * @param fileName
+	 */
 	public Simulation(String fileName){
 		// Create a map reader and read in the file
-		MapReader m = new MapReader(fileName);
-		m.process();
+		MapReader map = new MapReader(fileName);
+		map.process();
 		
 		// Create a list of lines
 		this.lines = new ArrayList<Line>();
-		this.lines.addAll(m.getLines());
+		this.lines.addAll(map.getLines());
 				
 		// Create a list of stations
 		this.stations = new ArrayList<Station>();
-		this.stations.addAll(m.getStations());
+		this.stations.addAll(map.getStations());
 		
 		// Create a list of trains
 		this.trains = new ArrayList<Train>();
-		this.trains.addAll(m.getTrains());
+		this.trains.addAll(map.getTrains());
 	}
 	
 	
-	// Update all the trains in the simulation
+	/**
+	 *  Update all the trains in the simulation
+	 */
 	public void update(){
 		// Update all the trains
-		for(Train t: this.trains){
-			t.update(Gdx.graphics.getDeltaTime());
+		for(Train train: this.trains){
+			train.update(Gdx.graphics.getDeltaTime());
 		}
 	}
 	
+	/**
+	 * 
+	 * @param renderer
+	 */
 	public void render(ShapeRenderer renderer){
-		for(Line l: this.lines){
-			l.render(renderer);
+		for(Line line: this.lines){
+			line.render(renderer);
 		}
 
-		for(Train t: this.trains){
-			t.render(renderer);
+		for(Train train: this.trains){
+			train.render(renderer);
 		}
-		for(Station s: this.stations){
-			s.render(renderer);
+		for(Station station: this.stations){
+			station.render(renderer);
 		}
 	}
 }

@@ -15,9 +15,9 @@ public class Station {
 	public static final int PLATFORMS=2;
 	
 	public Point2D.Float position;
-	public static final float RADIUS=6;
-	public static final int NUM_CIRCLE_STATMENTS=100;
-	public static final int MAX_LINES=3;
+	public static final float RADIUS = 6;
+	public static final int NUM_CIRCLE_STATMENTS = 100;
+	public static final int MAX_LINES = 3;
 	public String name;
 	public ArrayList<Line> lines;
 	public ArrayList<Train> trains;
@@ -60,7 +60,6 @@ public class Station {
 		}
 	}
 	
-	
 	public void depart(Train t) throws Exception {
 		if(this.trains.contains(t)){
 			this.trains.remove(t);
@@ -86,11 +85,6 @@ public class Station {
 	public String toString() {
 		return "Station [position=" + position + ", name=" + name + ", trains=" + trains.size()
 				+ ", router=" + router + "]";
-	}
-
-	public Passenger generatePassenger(Station s) {
-		return new Passenger(this, s);
-	}
-	
+	}	
 	
 }

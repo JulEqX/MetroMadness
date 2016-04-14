@@ -25,12 +25,12 @@ import com.unimelb.swen30006.metromadness.trains.Train;
 
 public class MapReader {
 
-	public ArrayList<Train> trains;
-	public HashMap<String, Station> stations;
-	public HashMap<String, Line> lines;
+	private ArrayList<Train> trains;
+	private HashMap<String, Station> stations;
+	private HashMap<String, Line> lines;
 
-	public boolean processed;
-	public String filename;
+	private boolean processed;
+	private String filename;
 
 	public MapReader(String filename){
 		this.trains = new ArrayList<Train>();
@@ -43,32 +43,33 @@ public class MapReader {
 	public void process(){
 		try {
 			// Build the doc factory
-			FileHandle file = Gdx.files.internal("assets/maps/melbourne.xml");			
+			FileHandle file = Gdx.files.internal(filename);
+			
 			XmlReader reader = new XmlReader();
 			Element root = reader.parse(file);
 
 			// Process stations
 			Element stations = root.getChildByName("stations");
 			Array<Element> stationList = stations.getChildrenByName("station");
-			for(Element e : stationList){
-				Station s = processStation(e);
-				this.stations.put(s.name, s);
+			for(Element element : stationList){
+				Station station = processStation(element);
+				this.stations.put(station.name, station);
 			}
 			
 			// Process Lines
 			Element lines = root.getChildByName("lines");
 			Array<Element> lineList = lines.getChildrenByName("line");
-			for(Element e : lineList){
-				Line l = processLine(e);
-				this.lines.put(l.name, l);
+			for(Element element : lineList){
+				Line line = processLine(element);
+				this.lines.put(line.name, line);
 			}
 
 			// Process Trains
 			Element trains = root.getChildByName("trains");
 			Array<Element> trainList = trains.getChildrenByName("train");
-			for(Element e : trainList){
-				Train t = processTrain(e);
-				this.trains.add(t);
+			for(Element element : trainList){
+				Train train = processTrain(element);
+				this.trains.add(train);
 			}
 			
 			this.processed = true;
@@ -79,21 +80,40 @@ public class MapReader {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Collection<Train> getTrains(){
-		if(!this.processed) { this.process(); }
+		if(!this.processed) { 
+			this.process(); 
+		}
 		return this.trains;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Collection<Line> getLines(){
-		if(!this.processed) { this.process(); }
+		if(!this.processed) { 
+			this.process(); 
+		}
 		return this.lines.values();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Collection<Station> getStations(){
-		if(!this.processed) { this.process(); }
+		if(!this.processed) { 
+			this.process();
+		}
 		return this.stations.values();
 	}
 
+	
 	private Train processTrain(Element e){
 		// Retrieve the values
 		String type = e.get("type");
@@ -104,7 +124,8 @@ public class MapReader {
 		// Retrieve the lines and stations
 		Line l = this.lines.get(line);
 		Station s = this.stations.get(start);
-		
+		System.out.println(type);
+
 		// Make the train
 		if(type.equals("BigPassenger")){
 			return new BigPassengerTrain(l,s,dir);
