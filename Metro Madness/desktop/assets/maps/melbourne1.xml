@@ -2,7 +2,7 @@
 
 	<stations>
 		<station>
-			<type>Active</type>
+			<type>Passive</type>
 			<name>Hurstbridge</name>
 			<x_loc>5200</x_loc>
 			<y_loc>7600</y_loc>

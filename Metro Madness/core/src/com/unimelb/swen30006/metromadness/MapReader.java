@@ -63,7 +63,8 @@ public class MapReader {
 				Line line = processLine(element);
 				this.lines.put(line.name, line);
 			}
-
+			
+			
 			// Process Trains
 			Element trains = root.getChildByName("trains");
 			Array<Element> trainList = trains.getChildrenByName("train");
@@ -143,6 +144,7 @@ public class MapReader {
 		int y_loc = e.getInt("y_loc")/8;
 		String router = e.get("router");
 		PassengerRouter r = createRouter(router);
+		
 		if(type.equals("Active")){
 			int maxPax = e.getInt("max_passengers");
 			return new ActiveStation(x_loc, y_loc, r, name, maxPax);

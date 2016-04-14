@@ -1,6 +1,7 @@
 package com.unimelb.swen30006.metromadness;
 
 import java.util.ArrayList;
+import java.lang.Class.*;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -41,6 +42,16 @@ public class Simulation {
 		// Create a list of trains
 		this.trains = new ArrayList<Train>();
 		this.trains.addAll(map.getTrains());
+		
+		Class cls;
+		lg
+		for(Station aStation : stations){
+			cls = aStation.getClass();
+			if(cls.getSimpleName().equalsIgnoreCase("ActiveStation")){
+				aStation.addLineGenerator(lg);
+			}
+			
+		}
 	}
 	
 	

@@ -11,7 +11,7 @@ public class PassengerGenerator {
 	// The station that passengers are getting on
 	public ActiveStation s;
 	// The line they are travelling on
-	public ArrayList<Line> lines;
+	public LineGenerator lg;
 	
 	// The max volume
 	public float maxVolume;
@@ -49,5 +49,11 @@ public class PassengerGenerator {
 			s.addPassenger(new Passenger(s, random_destination));
 		}
 	}
+	
+	public void addLineGenerator(LineGenerator lg){
+		this.lg = lg;
+	}
+	
+	
 	
 }
