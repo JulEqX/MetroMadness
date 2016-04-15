@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.unimelb.swen30006.metromadness.stations.ActiveStation;
 import com.unimelb.swen30006.metromadness.stations.Station;
 import com.unimelb.swen30006.metromadness.tracks.Line;
+import com.unimelb.swen30006.metromadness.tracks.LineGenerator;
 
 public class PassengerGenerator {
 	
@@ -16,9 +17,10 @@ public class PassengerGenerator {
 	// The max volume
 	public float maxVolume;
 	
-	public PassengerGenerator(ActiveStation s, ArrayList<Line> lines, float max){
+	private ArrayList<Station> path;
+	
+	public PassengerGenerator(ActiveStation s, float max){
 		this.s = s;
-		this.lines = lines;
 		this.maxVolume = max;
 	}
 	
@@ -31,7 +33,14 @@ public class PassengerGenerator {
 		
 		for(int i = 0; i < count; i++){
 			// Pick a random station from the line
-			random_line = this.lines.get((int)Math.random()*(this.lines.size()-1));
+			random_line = lg.getRandomLine();
+			int rindex = (int) (Math.random() * random_line.getStations().size());
+			random_destination = random_line.getStations().get(rindex);
+			
+			while(){
+				
+			}
+			/*
 			int current_station = random_line.stations.indexOf(this.s);
 			boolean forward = Math.random()>0.5f;
 			
@@ -45,7 +54,7 @@ public class PassengerGenerator {
 			// Find the station
 			int index = (int) ( forward ? Math.random()*(current_station+1) : Math.random()*(current_station-1));
 			random_destination = random_line.stations.get(index);
-			
+			*/
 			s.addPassenger(new Passenger(s, random_destination));
 		}
 	}
@@ -54,6 +63,9 @@ public class PassengerGenerator {
 		this.lg = lg;
 	}
 	
+	public void pathFinder(Station start, Station end){
+		
+	}
 	
 	
 }

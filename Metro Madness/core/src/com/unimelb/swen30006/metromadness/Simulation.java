@@ -5,8 +5,10 @@ import java.lang.Class.*;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.unimelb.swen30006.metromadness.stations.ActiveStation;
 import com.unimelb.swen30006.metromadness.stations.Station;
 import com.unimelb.swen30006.metromadness.tracks.Line;
+import com.unimelb.swen30006.metromadness.tracks.LineGenerator;
 import com.unimelb.swen30006.metromadness.trains.Train;
 
 /**
@@ -44,13 +46,12 @@ public class Simulation {
 		this.trains.addAll(map.getTrains());
 		
 		Class cls;
-		lg
+		LineGenerator lg = new LineGenerator(lines);
 		for(Station aStation : stations){
 			cls = aStation.getClass();
 			if(cls.getSimpleName().equalsIgnoreCase("ActiveStation")){
-				aStation.addLineGenerator(lg);
+				((ActiveStation)aStation).addLineGenerator(lg);
 			}
-			
 		}
 	}
 	

@@ -7,7 +7,6 @@ public class LineGenerator {
     private ArrayList<Line> lines;
     
     public LineGenerator(ArrayList<Line> lines){
-        lines = new ArrayList<Line>();
         this.lines = lines;
     }
     

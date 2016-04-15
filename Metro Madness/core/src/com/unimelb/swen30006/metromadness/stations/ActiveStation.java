@@ -7,19 +7,18 @@ import com.unimelb.swen30006.metromadness.passengers.Passenger;
 import com.unimelb.swen30006.metromadness.passengers.PassengerGenerator;
 import com.unimelb.swen30006.metromadness.routers.PassengerRouter;
 import com.unimelb.swen30006.metromadness.tracks.Line;
+import com.unimelb.swen30006.metromadness.tracks.LineGenerator;
 import com.unimelb.swen30006.metromadness.trains.Train;
 
 public class ActiveStation extends Station {
 
 	private PassengerGenerator g;
 	private ArrayList<Passenger> waiting;
-	private ArrayList<Line>allLines;
 
 	public ActiveStation(float x, float y, PassengerRouter router, String name, float maxPax) {
 		super(x, y, router, name);
 		this.waiting = new ArrayList<Passenger>();
-		this.allLines = new ArrayList<Line>();
-		this.g = new PassengerGenerator(this, this.lines, maxPax);
+		this.g = new PassengerGenerator(this, maxPax);
 	}
 
 	@Override

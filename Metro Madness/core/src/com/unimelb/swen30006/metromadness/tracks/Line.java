@@ -15,7 +15,7 @@ public class Line {
 	// The name of this line
 	public String name;
 	// The stations on this line
-	public ArrayList<Station> stations;
+	private ArrayList<Station> stations;
 	// The tracks on this line between stations
 	public ArrayList<Track> tracks;
 		
@@ -113,6 +113,10 @@ public class Line {
 		for(Track t: this.tracks){
 			t.render(renderer);
 		}	
+	}
+	
+	public ArrayList<Station> getStations(){
+		return this.stations;
 	}
 	
 }

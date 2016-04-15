@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.unimelb.swen30006.metromadness.passengers.Passenger;
 import com.unimelb.swen30006.metromadness.routers.PassengerRouter;
 import com.unimelb.swen30006.metromadness.tracks.Line;
+import com.unimelb.swen30006.metromadness.tracks.LineGenerator;
 import com.unimelb.swen30006.metromadness.trains.Train;
 
 public class Station {
@@ -19,7 +20,7 @@ public class Station {
 	public static final int NUM_CIRCLE_STATMENTS = 100;
 	public static final int MAX_LINES = 3;
 	public String name;
-	public ArrayList<Line> lines;
+	private ArrayList<Line> lines; //Station is on 1 or many lines
 	public ArrayList<Train> trains;
 	public static final float DEPARTURE_TIME = 2;
 	public PassengerRouter router;
@@ -86,5 +87,9 @@ public class Station {
 		return "Station [position=" + position + ", name=" + name + ", trains=" + trains.size()
 				+ ", router=" + router + "]";
 	}	
+	
+	public ArrayList<Line> getLines(){
+		return this.lines;
+	}
 	
 }
