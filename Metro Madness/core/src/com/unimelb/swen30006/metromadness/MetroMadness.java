@@ -16,8 +16,9 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class MetroMadness extends ApplicationAdapter {
 
-	// The width of the world in unitless dimensions
+	/* The width of the world in unitless dimensions*/
     private static final int WORLD_WIDTH = 1200;
+    /* The height  of the world in unitless dimensions*/
     private static final int WORLD_HEIGHT = 1200;
 
     // Viewport state

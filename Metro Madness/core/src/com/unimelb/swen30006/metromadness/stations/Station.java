@@ -39,7 +39,7 @@ public class Station {
 	
 	public void render(ShapeRenderer renderer){
 		float radius = RADIUS;
-		for(int i=0; (i<this.lines.size() && i<MAX_LINES); i++){
+		for(int i=0; i<this.lines.size(); i++){
 			Line l = this.lines.get(i);
 			renderer.setColor(l.lineColour);
 			renderer.circle(this.position.x, this.position.y, radius, NUM_CIRCLE_STATMENTS);
@@ -90,6 +90,10 @@ public class Station {
 	
 	public ArrayList<Line> getLines(){
 		return this.lines;
+	}
+	
+	public boolean isActive() {
+		return false;
 	}
 	
 }

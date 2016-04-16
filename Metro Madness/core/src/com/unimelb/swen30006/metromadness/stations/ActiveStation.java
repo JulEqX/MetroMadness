@@ -12,46 +12,64 @@ import com.unimelb.swen30006.metromadness.trains.Train;
 
 public class ActiveStation extends Station {
 
-	private PassengerGenerator g;
-	private ArrayList<Passenger> waiting;
-
+	public PassengerGenerator g;
+	public ArrayList<Passenger> waiting;
+	private ArrayList<Line> allLines;
+	
 	public ActiveStation(float x, float y, PassengerRouter router, String name, float maxPax) {
 		super(x, y, router, name);
 		this.waiting = new ArrayList<Passenger>();
 		this.g = new PassengerGenerator(this, maxPax);
 	}
-
+	
 	@Override
 	public void enter(Train t) throws Exception {
-		if (trains.size() >= PLATFORMS) {
+		if(trains.size() >= PLATFORMS){
 			throw new Exception();
 		} else {
 			// Add the train
 			this.trains.add(t);
-
-			this.g.generatePassenger();
-
+			
 			// Add the waiting passengers
 			Iterator<Passenger> pIter = this.waiting.iterator();
-			while (pIter.hasNext()) {
+			while(pIter.hasNext()){
 				Passenger p = pIter.next();
 				try {
-					t.embark(p);
-					pIter.remove();
-				} catch (Exception e) {
+					//If current train line contains the next station the passenger needs to go to
+					if(t.getTrainLine().getStations().contains(p.getTravelStations().get(0))) {
+						t.embark(p);
+						p.getTravelStations().remove(0);
+						pIter.remove();
+					}
+				} catch (Exception e){
 					// Do nothing, already waiting
 					break;
 				}
 			}
+			
+			// Add the new passenger
+			Passenger[] ps = this.g.generatePassengers();
+			for(Passenger p: ps){
+				try {
+					t.embark(p);
+				} catch(Exception e){
+					this.waiting.add(p);
+				}
+			}
 		}
 	}
+	
+	public ArrayList<Passenger> getWaiting() {
+		return waiting;
+	}
 
-	public void addPassenger(Passenger p) {
-		this.waiting.add(p);
+	public void addLineGenerator(LineGenerator lg) {
+		allLines = lg.getLines();
 	}
 	
-	public void addLineGenerator(LineGenerator lg){
-		this.g.addLineGenerator(lg);
+	@Override
+	public boolean isActive() {
+		return true;
 	}
-	
+
 }

@@ -1,13 +1,14 @@
 package com.unimelb.swen30006.metromadness.trains;
 
 import java.awt.geom.Point2D;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.unimelb.swen30006.metromadness.passengers.Passenger;
-import com.unimelb.swen30006.metromadness.stations.Station;
+import com.unimelb.swen30006.metromadness.stations.*;
 import com.unimelb.swen30006.metromadness.tracks.Line;
 import com.unimelb.swen30006.metromadness.tracks.Track;
 
@@ -68,9 +69,13 @@ public class Train {
 			// current station offically and mark as in station
 			try {
 				if(this.station.canEnter(this.trainLine)){
+					//Train enters the station
 					this.station.enter(this);
+					//Position of this train is position of station
 					this.pos = (Point2D.Float) this.station.position.clone();
+					//Update state
 					this.state = State.IN_STATION;
+					
 					this.disembarked = false;
 				}
 			} catch (Exception e) {
@@ -79,8 +84,9 @@ public class Train {
 		case IN_STATION:
 
 			// When in station we want to disembark passengers 
-			// and wait 10 seconds for incoming passgengers
+			// and wait 10 seconds for incoming passengers
 			if(!this.disembarked){
+				//Disembark passengers
 				this.disembark();
 				this.departureTimer = this.station.getDepartureTime();
 				this.disembarked = true;
@@ -154,6 +160,10 @@ public class Train {
 
 	}
 
+	public Line getTrainLine() {
+		return trainLine;
+	}
+
 	public void move(float delta){
 		// Work out where we're going
 		float angle = angleAlongLine(this.pos.x,this.pos.y,this.station.position.x,this.station.position.y);
@@ -169,15 +179,35 @@ public class Train {
 
 	public ArrayList<Passenger> disembark(){
 		ArrayList<Passenger> disembarking = new ArrayList<Passenger>();
-		Iterator<Passenger> iterator = this.passengers.iterator();
-		while(iterator.hasNext()){
-			Passenger p = iterator.next();
+		Iterator<Passenger> disembarkIterator = this.passengers.iterator();
+		//For each passenger on the train
+		while(disembarkIterator.hasNext()){
+			Passenger p = disembarkIterator.next();
+			//If passenger should leave
 			if(this.station.shouldLeave(p)){
 				disembarking.add(p);
-				iterator.remove();
+				disembarkIterator.remove();
 			}
 		}
+		
+		//Check if disembarked passengers are waiting for another train
+		Iterator<Passenger> waitingIterator = disembarking.iterator();
+		while(waitingIterator.hasNext()) {
+			Passenger p = waitingIterator.next();
+			
+			if(p.getTravelStations().size() > 0) {
+				ActiveStation active = (ActiveStation)getStation();
+				active.getWaiting().add(p);
+				
+			}
+		}
+		
+		
 		return disembarking;
+	}
+
+	public Station getStation() {
+		return station;
 	}
 
 	@Override
