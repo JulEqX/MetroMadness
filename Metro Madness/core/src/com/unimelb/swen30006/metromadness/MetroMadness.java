@@ -25,8 +25,6 @@ public class MetroMadness extends ApplicationAdapter {
 	private static final int VIEWPORT_WIDTH = 200;
 
 	/** Font size */
-	private static final int FONTSIZE = 12;
-	/** Font size */
 	private static final int HEADLINESIZE = 40;
 
 	/** File path for XML data file */
@@ -39,8 +37,6 @@ public class MetroMadness extends ApplicationAdapter {
 	/** A camera with orthographic projection */
 	private OrthographicCamera camera;
 
-	/** Smaller font */
-	private BitmapFont smaller;
 	/** Bigger font */
 	private BitmapFont header;
 
@@ -65,14 +61,8 @@ public class MetroMadness extends ApplicationAdapter {
 
 		// Create our shape renderer
 		shapeRenderer = new ShapeRenderer();
-
-		// Create our font
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Gotham-Book.ttf"));
-		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		parameter.size = FONTSIZE;
-		smaller = generator.generateFont(parameter); // font size 12 pixels
-		generator.dispose(); // don't forget to dispose to avoid memory leaks!
-
+		
+		// Get head line font
 		FreeTypeFontGenerator headlineGen = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Gotham-Bold.ttf"));
 		FreeTypeFontParameter headlineParam = new FreeTypeFontParameter();
 		headlineParam.size = HEADLINESIZE;
@@ -80,7 +70,6 @@ public class MetroMadness extends ApplicationAdapter {
 		headlineGen.dispose(); // don't forget to dispose to avoid memory leaks!
 
 		// Setup fonts
-		smaller.setColor(Color.GRAY);
 		header.setColor(Color.BLACK);
 
 	}

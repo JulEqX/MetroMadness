@@ -1,14 +1,12 @@
 package com.unimelb.swen30006.metromadness;
 
 import java.util.ArrayList;
-import java.lang.Class.*;
+
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.unimelb.swen30006.metromadness.stations.ActiveStation;
 import com.unimelb.swen30006.metromadness.stations.Station;
 import com.unimelb.swen30006.metromadness.tracks.Line;
-import com.unimelb.swen30006.metromadness.tracks.LineGenerator;
 import com.unimelb.swen30006.metromadness.trains.Train;
 
 /**
@@ -40,15 +38,6 @@ public class Simulation {
 		// Create a list of trains
 		this.trains = new ArrayList<Train>();
 		this.trains.addAll(map.getTrains());
-
-		Class cls;
-		LineGenerator lg = new LineGenerator(lines);
-		for (Station aStation : stations) {
-			cls = aStation.getClass();
-			if (cls.getSimpleName().equalsIgnoreCase("ActiveStation")) {
-				((ActiveStation) aStation).addLineGenerator(lg);
-			}
-		}
 	}
 
 	/**

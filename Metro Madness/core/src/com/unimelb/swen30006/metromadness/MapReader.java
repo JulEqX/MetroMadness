@@ -64,7 +64,7 @@ public class MapReader {
 			Array<Element> stationList = stations.getChildrenByName("station");
 			for (Element element : stationList) {
 				Station station = processStation(element);
-				this.stations.put(station.name, station);
+				this.stations.put(station.getName(), station);
 			}
 
 			// Process Lines
@@ -72,7 +72,7 @@ public class MapReader {
 			Array<Element> lineList = lines.getChildrenByName("line");
 			for (Element element : lineList) {
 				Line line = processLine(element);
-				this.lines.put(line.name, line);
+				this.lines.put(line.getName(), line);
 			}
 
 			// Process Trains
@@ -201,7 +201,7 @@ public class MapReader {
 		return l;
 	}
 
-	/* CHANGED TO MULTI ATM */
+	/* CURRENTLY MULTI TO TEST MULTI LINE TRAVEL */
 	private PassengerRouter createRouter(String type) {
 		if (type.equals("simple")) {
 			return new MultiRouter();
