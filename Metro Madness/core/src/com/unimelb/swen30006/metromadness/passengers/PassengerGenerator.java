@@ -1,3 +1,10 @@
+/**
+ * Daewin (679182)
+ * Julian (677491)
+ * Rahul (696272)
+ * Last Edited: 17th April 2016
+ * SWEN30006, Semester 1
+ */
 package com.unimelb.swen30006.metromadness.passengers;
 
 import java.util.ArrayList;
