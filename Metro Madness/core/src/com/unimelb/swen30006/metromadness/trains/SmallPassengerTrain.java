@@ -10,16 +10,18 @@ import com.unimelb.swen30006.metromadness.tracks.Line;
  * Variation of train that has a small passenger limit
  */
 public class SmallPassengerTrain extends Train {
+	/**
+	 * Limit of the number of passengers for small train
+	 */
+	private static final int PASSENGERLIMIT  = 10;
 	
-	private static final int passengerLimit  = 10;
-
 	public SmallPassengerTrain(Line trainLine, Station start, boolean forward) {
 		super(trainLine, start, forward);
 	}
 
 	@Override
 	public void embark(Passenger p) throws Exception {
-		if(this.passengers.size() > passengerLimit){
+		if(this.passengers.size() > PASSENGERLIMIT){
 			throw new Exception();
 		}
 		this.passengers.add(p);

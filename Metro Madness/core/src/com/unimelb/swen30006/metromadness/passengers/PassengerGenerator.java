@@ -19,7 +19,7 @@ public class PassengerGenerator {
 	 * Generate a random number of line travels. Used for simulating multi line
 	 * travel
 	 */
-	private static int RANDOM = 10;
+	private static final int RANDOM = 10;
 
 	public PassengerGenerator(Station s, float max) {
 		this.start = s;
@@ -42,7 +42,7 @@ public class PassengerGenerator {
 	}
 
 	/** Generates a single passenger with random stations to travel to */
-	public Passenger generatePassenger() {
+	private Passenger generatePassenger() {
 		// Chooses random number of lines to travel on
 		int numLineTravels = (int) (Math.random() * (RANDOM)) + 1;
 

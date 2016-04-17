@@ -45,7 +45,7 @@ public class Train {
 	/** The track that the train is on */
 	private Track track;
 	/** The position of the train on the map */
-	public Point2D.Float pos;
+	protected Point2D.Float pos;
 	/** Current state of train */
 	private State state;
 
@@ -238,6 +238,18 @@ public class Train {
 					((ActiveStation) this.station).addPassenger(p);
 
 				}
+			}
+		}
+	
+		//Check if disembarked passengers are waiting for another train
+		Iterator<Passenger> disembarkingIterator = disembarking.iterator();
+		while(disembarkingIterator.hasNext()) {
+			Passenger p = disembarkingIterator.next();
+			
+			if(p.getTravelStations().size() > 0) {
+				ActiveStation active = (ActiveStation)getStation();
+				active.getWaiting().add(p);
+				
 			}
 		}
 	}

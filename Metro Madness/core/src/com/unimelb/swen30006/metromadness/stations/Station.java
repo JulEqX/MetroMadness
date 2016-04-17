@@ -174,6 +174,10 @@ public class Station {
 		this.name = name;
 	}
 	
+	/**
+	 * Check if this station is an active one
+	 * @return true if active false otherwise
+	 */
 	public boolean isActive() {
 		return false;
 	}

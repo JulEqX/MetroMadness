@@ -68,15 +68,23 @@ public class ActiveStation extends Station {
 		}
 	}
 	
+	/**
+	 * Adds a passenger to the waiting list
+	 * @param p a Single passenger
+	 */
 	public void addPassenger(Passenger p) {
 		this.waiting.add(p);
 	}
 	
+	/**
+	 * Returns if station is an active one
+	 */
 	public boolean isActive() {
 		return true;
 	}
 	
 	/**
+	 * Get waiting passenger list
 	 * @return list of passengers waiting for a train
 	 */
 	public ArrayList<Passenger> getWaiting() {

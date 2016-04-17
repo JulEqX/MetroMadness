@@ -14,7 +14,7 @@ public class Line {
 	/** The colour of this line */
 	private Color lineColour;
 	/** The colour of the track */
-	public Color trackColour;
+	private Color trackColour;
 
 	/** Name of this line */
 	private String name;
@@ -42,7 +42,7 @@ public class Line {
 	 * @param two_way
 	 *            Whether line to station is dual way
 	 */
-	public void addStation(Station s, Boolean two_way) {
+	public void addStation(Station s, Boolean twoWay) {
 		// We need to build the track if this is adding to existing stations
 		if (this.stations.size() > 0) {
 			// Get the last station
@@ -50,7 +50,7 @@ public class Line {
 
 			// Generate a new track
 			Track t;
-			if (two_way) {
+			if (twoWay) {
 				t = new DualTrack(last.getPosition(), s.getPosition(),
 						this.trackColour);
 			} else {
@@ -89,7 +89,7 @@ public class Line {
 	}
 
 	/**
-	 * Gets the next track after a specifed station
+	 * Gets the next track after a specified station
 	 * 
 	 * @param currentStation
 	 *            The station to find the next track from
