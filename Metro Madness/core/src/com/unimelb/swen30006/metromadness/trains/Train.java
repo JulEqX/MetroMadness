@@ -30,11 +30,11 @@ public class Train {
 	protected static final float TRAIN_WIDTH = 4;
 	/** The speed of the train */
 	private static final float TRAIN_SPEED = 50f;
-	/** Max number of trips a train can take before going back to the depot*/
+	/** Max number of trips a train can take before going back to the depot */
 	private static final int MAX_TRIPS = 1;
 	/** Passengers currently on train */
 	protected ArrayList<Passenger> passengers;
-	/** Number of trips train has taken*/
+	/** Number of trips train has taken */
 	private int tripCounter = 0;
 	/** Check of train has disembarked */
 	private boolean disembarked;
@@ -116,13 +116,14 @@ public class Train {
 								.endOfLine(this.station);
 						if (endOfLine) {
 							this.setForward(!this.isForward());
-							this.tripCounter+=1;
+							this.tripCounter += 1;
 						}
-						if(tripCounter > MAX_TRIPS) {
+						// If number of trips is greater than max trips, return
+						// to depot
+						if (tripCounter > MAX_TRIPS) {
 							tripCounter = 0;
 							this.state = State.TO_DEPOT;
-						}
-						else {
+						} else {
 							this.track = this.trainLine.nextTrack(this.station,
 									this.isForward());
 							this.state = State.READY_DEPART;
@@ -136,7 +137,6 @@ public class Train {
 			}
 			break;
 		case READY_DEPART:
-
 			// When ready to depart, check that the track is clear and if
 			// so, then occupy it if possible.
 			if (this.track.canEnter(this.isForward())) {
@@ -156,7 +156,6 @@ public class Train {
 			}
 			break;
 		case ON_ROUTE:
-
 			// Checkout if we have reached the new station
 			if (this.pos.distance(this.station.getPosition()) < 10) {
 				this.state = State.WAITING_ENTRY;
@@ -165,7 +164,6 @@ public class Train {
 			}
 			break;
 		case WAITING_ENTRY:
-
 			// Waiting to enter, we need to check the station has room and if so
 			// then we need to enter, otherwise we just wait
 			try {
@@ -182,11 +180,14 @@ public class Train {
 			}
 			break;
 		case TO_DEPOT:
-			if(this.station.isActive()) {
-				Iterator<Passenger> disembarkIterator = this.passengers.iterator();
-				while(disembarkIterator.hasNext()){
+			// If current station is active, remove passengers and add to
+			// waiting list else go to next active station
+			if (this.station.isActive()) {
+				Iterator<Passenger> disembarkIterator = this.passengers
+						.iterator();
+				while (disembarkIterator.hasNext()) {
 					Passenger p = disembarkIterator.next();
-					((ActiveStation)this.station).addPassenger(p);
+					((ActiveStation) this.station).addPassenger(p);
 					disembarkIterator.remove();
 				}
 				try {
@@ -196,10 +197,8 @@ public class Train {
 					this.station.depart(this);
 					this.station = next;
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println("EMPTIED PASSENGERS. GOING TO DEPOT");
 				this.state = State.FROM_DEPOT;
 			} else {
 				this.state = State.READY_DEPART;
@@ -276,16 +275,16 @@ public class Train {
 				}
 			}
 		}
-	
-		//Check if disembarked passengers are waiting for another train
+
+		// Check if disembarked passengers are waiting for another train
 		Iterator<Passenger> disembarkingIterator = disembarking.iterator();
-		while(disembarkingIterator.hasNext()) {
+		while (disembarkingIterator.hasNext()) {
 			Passenger p = disembarkingIterator.next();
-			
-			if(p.getTravelStations().size() > 0) {
-				ActiveStation active = (ActiveStation)getStation();
+
+			if (p.getTravelStations().size() > 0) {
+				ActiveStation active = (ActiveStation) getStation();
 				active.getWaiting().add(p);
-				
+
 			}
 		}
 	}
@@ -360,7 +359,7 @@ public class Train {
 	public void setForward(boolean forward) {
 		this.forward = forward;
 	}
-	
+
 	public int getTripCounter() {
 		return tripCounter;
 	}

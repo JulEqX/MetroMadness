@@ -141,7 +141,6 @@ public class MapReader {
 		// Retrieve the lines and stations
 		Line l = this.lines.get(line);
 		Station s = this.stations.get(start);
-		System.out.println(type);
 
 		// Make the train
 		if (type.equals("BigPassenger")) {
