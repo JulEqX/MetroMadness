@@ -19,7 +19,7 @@ public class Train {
 
 	/** States the train can be in */
 	private enum State {
-		IN_STATION, READY_DEPART, ON_ROUTE, WAITING_ENTRY, FROM_DEPOT
+		IN_STATION, READY_DEPART, ON_ROUTE, WAITING_ENTRY, FROM_DEPOT, TO_DEPOT
 	}
 
 	/** Colour of a forward moving train */
@@ -30,8 +30,12 @@ public class Train {
 	protected static final float TRAIN_WIDTH = 4;
 	/** The speed of the train */
 	private static final float TRAIN_SPEED = 50f;
+	/** Max number of trips a train can take before going back to the depot*/
+	private static final int MAX_TRIPS = 1;
 	/** Passengers currently on train */
 	protected ArrayList<Passenger> passengers;
+	/** Number of trips train has taken*/
+	private int tripCounter = 0;
 	/** Check of train has disembarked */
 	private boolean disembarked;
 	/** Direction of travel */
@@ -90,6 +94,7 @@ public class Train {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			break;
 		case IN_STATION:
 
 			// When in station we want to disembark passengers
@@ -111,10 +116,17 @@ public class Train {
 								.endOfLine(this.station);
 						if (endOfLine) {
 							this.setForward(!this.isForward());
+							this.tripCounter+=1;
 						}
-						this.track = this.trainLine.nextTrack(this.station,
-								this.isForward());
-						this.state = State.READY_DEPART;
+						if(tripCounter > MAX_TRIPS) {
+							tripCounter = 0;
+							this.state = State.TO_DEPOT;
+						}
+						else {
+							this.track = this.trainLine.nextTrack(this.station,
+									this.isForward());
+							this.state = State.READY_DEPART;
+						}
 						break;
 					} catch (Exception e) {
 						// Massive error.
@@ -167,6 +179,30 @@ public class Train {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+			}
+			break;
+		case TO_DEPOT:
+			if(this.station.isActive()) {
+				Iterator<Passenger> disembarkIterator = this.passengers.iterator();
+				while(disembarkIterator.hasNext()){
+					Passenger p = disembarkIterator.next();
+					((ActiveStation)this.station).addPassenger(p);
+					disembarkIterator.remove();
+				}
+				try {
+					Station next = this.trainLine.nextStation(this.station,
+							this.isForward());
+					// Depart our current station
+					this.station.depart(this);
+					this.station = next;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("EMPTIED PASSENGERS. GOING TO DEPOT");
+				this.state = State.FROM_DEPOT;
+			} else {
+				this.state = State.READY_DEPART;
 			}
 			break;
 		}
@@ -323,6 +359,14 @@ public class Train {
 	 */
 	public void setForward(boolean forward) {
 		this.forward = forward;
+	}
+	
+	public int getTripCounter() {
+		return tripCounter;
+	}
+
+	public void setTripCounter(int tripCounter) {
+		this.tripCounter = tripCounter;
 	}
 
 }
