@@ -32,9 +32,7 @@ public class Passenger {
 
 	/**
 	 * Updates the travel time of passenger
-	 * 
-	 * @param time
-	 *            The time taken
+	 * @param time The time taken
 	 */
 	public void update(float time) {
 		if (!this.reachedDestination) {
