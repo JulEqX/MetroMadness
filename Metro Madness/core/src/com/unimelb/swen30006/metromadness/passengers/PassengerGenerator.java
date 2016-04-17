@@ -41,15 +41,19 @@ public class PassengerGenerator {
 		Station temporary = start;
 		for(int i = 0; i < numLineTravels; i++) {
 			
-			//Get a random line
+			//Get a random line from current position
 			Line newLine = temporary.getLines().get((int)(Math.random()*temporary.getLines().size()));
 			
 			//Get a random station on that line
 			Station newStation = newLine.getStations().get((int)(Math.random()*newLine.getStations().size()));
 			
 			//Make sure that station is an active station
-			while(!(start.getClass().toString().equals(newStation.getClass().toString()))) {
+			Class cls;
+			cls = newStation.getClass();
+			while(!(cls.getSimpleName().equalsIgnoreCase("ActiveStation")) && !(travelStations.contains(newStation))) {
 				newStation = newLine.getStations().get((int)(Math.random()*newLine.getStations().size()));
+				System.out.println("Loops");
+				cls = newStation.getClass();
 			}
 			
 			//Add new station to travel list
