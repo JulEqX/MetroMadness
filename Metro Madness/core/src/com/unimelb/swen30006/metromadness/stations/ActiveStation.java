@@ -77,8 +77,10 @@ public class ActiveStation extends Station {
 	}
 	
 	/**
-	 * Returns if station is an active one
+	 * Check if this station is an active one
+	 * @return true if active false otherwise
 	 */
+	@Override
 	public boolean isActive() {
 		return true;
 	}
